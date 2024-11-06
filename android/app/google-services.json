@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "85326888153",
+    "project_id": "anilabapp",
+    "storage_bucket": "anilabapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:85326888153:android:a0a5d95e9bdf045ccb92c8",
+        "android_client_info": {
+          "package_name": "com.anilab.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9OgN-KFl5qiHve7C-QwI1hoLhWcgKLjA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
