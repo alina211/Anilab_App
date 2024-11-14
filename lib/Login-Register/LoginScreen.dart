@@ -2,6 +2,7 @@ import 'package:anilab_app/Dashboard/FetchedUsers.dart';
 import 'package:anilab_app/Dashboard/Home.dart';
 import 'package:anilab_app/Download.dart';
 import 'package:anilab_app/Features.dart';
+import 'package:anilab_app/HomePage.dart';
 import 'package:anilab_app/HomeScreen.dart';
 import 'package:anilab_app/Login-Register/ForgetPassword.dart';
 import 'package:anilab_app/Login-Register/RegisterScreen.dart';
@@ -69,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
         await prefs.setString('role', 'user');
 
 
-        Navigator.push(context, MaterialPageRoute(builder: (context) => AnimeAppScreen())); // Replace with your user home screen
+        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage())); // Replace with your user home screen
       } on FirebaseAuthException catch (e) {
         // Show an error if credentials do not match
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Invalid credentials. Please try again.")));

@@ -45,6 +45,11 @@ dependencies:
   google_fonts: ^6.2.1
   google_maps_flutter: ^2.9.0
   fl_chart: ^0.69.0
+  flutter_rating_bar: ^4.0.1
+  mailer: ^6.2.0
+  google_mobile_ads: ^5.2.0
+  video_player: ^2.9.2
+  dio: ^5.7.0
 
 dev_dependencies:
   flutter_test:

@@ -23,7 +23,7 @@ class PostScreen extends StatelessWidget {
                 ),
                 child: Image.network(
                   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPvxuzuOXsUNC0R44c335mpO8um0jB8i7mNQ&s',
-                  fit: BoxFit.cover, // Cover the whole container
+                  fit: BoxFit.cover, // 
                 ),
               ),
             ),

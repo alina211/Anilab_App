@@ -1,7 +1,7 @@
 import 'package:anilab_app/Login-Register/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore package
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DashboardScreen extends StatelessWidget {
   final CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
@@ -66,7 +66,7 @@ class DashboardScreen extends StatelessWidget {
               child: ListView(
                 children: [
                   SizedBox(height: 10),
-                  _buildGraphSection(),
+                  _buildGraphs(), // Updated to display four graphs
                   SizedBox(height: 20),
                   _buildPieChartSection(),
                   SizedBox(height: 20),
@@ -135,7 +135,21 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildGraphSection() {
+  Widget _buildGraphs() {
+    return Column(
+      children: [
+        _buildGraphSection('Graph 1', Colors.cyanAccent),
+        SizedBox(height: 20),
+        _buildGraphSection('Graph 2', Colors.greenAccent),
+        SizedBox(height: 20),
+        _buildGraphSection('Graph 3', Colors.orangeAccent),
+        SizedBox(height: 20),
+        _buildGraphSection('Graph 4', Colors.redAccent),
+      ],
+    );
+  }
+
+  Widget _buildGraphSection(String title, Color color) {
     return Container(
       height: 200,
       padding: EdgeInsets.all(16),
@@ -145,14 +159,14 @@ class DashboardScreen extends StatelessWidget {
         boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 8, offset: Offset(0, 4))],
       ),
       child: LineChart(LineChartData(
-        titlesData: FlTitlesData(show: false),
+        titlesData: FlTitlesData(show: true),
         borderData: FlBorderData(show: false),
         lineBarsData: [
           LineChartBarData(
             spots: [FlSpot(0, 1), FlSpot(2, 3), FlSpot(4, 10), FlSpot(6, 7)],
             isCurved: true,
             barWidth: 4,
-            color: Colors.cyanAccent,
+            color: color,
           ),
         ],
         gridData: FlGridData(
@@ -220,24 +234,29 @@ class DashboardScreen extends StatelessWidget {
                 DataColumn(label: Text('ID')),
                 DataColumn(label: Text('Username')),
                 DataColumn(label: Text('Email')),
-                DataColumn(label: Text('Registered At')),
+                DataColumn(label: Text('Country')),
                 DataColumn(label: Text('Favorite Genre')),
-                DataColumn(label: Text('Actions')), // New column for actions
+                DataColumn(label: Text('Date of Birth')),
+                DataColumn(label: Text('Phone')),
+                DataColumn(label: Text('Actions')),
               ],
               rows: snapshot.data!.docs.map((userDoc) {
                 Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+
                 return DataRow(cells: [
                   DataCell(Text(userDoc.id)),
                   DataCell(Text(userData['username'] ?? 'Unknown')),
                   DataCell(Text(userData['email'] ?? 'No email provided')),
-                  DataCell(Text(userData['registeredAt'] != null
-                      ? "${userData['registeredAt']['date']} ${userData['registeredAt']['time']}"
-                      : 'Not specified')),
+                  DataCell(Text(userData['country'] ?? 'Not specified')),
                   DataCell(Text(userData['favoriteGenre'] ?? 'Not specified')),
+                  DataCell(Text(userData['dateOfBirth'] ?? 'Not specified')),
+                  DataCell(Text(userData['phone'] ?? 'Not provided')),
                   DataCell(
                     IconButton(
                       icon: Icon(Icons.delete, color: Colors.red),
-                      onPressed: () => _deleteUser(userDoc.id), // Call _deleteUser on delete
+                      onPressed: () async {
+                        await userDoc.reference.delete();
+                      },
                     ),
                   ),
                 ]);
@@ -247,14 +266,5 @@ class DashboardScreen extends StatelessWidget {
         },
       ),
     );
-  }
-
-  Future<void> _deleteUser(String userId) async {
-    try {
-      await usersCollection.doc(userId).delete();
-      print("User deleted successfully.");
-    } catch (e) {
-      print("Failed to delete user: $e");
-    }
   }
 }
